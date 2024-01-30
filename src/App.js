@@ -3,6 +3,7 @@ import "./App.css";
 
 function App() {
   const videoElement = useRef(null);
+  const videoBackgroundElement = useRef(null);
   const canvasElement = useRef(null);
 
   useEffect(() => {
@@ -12,6 +13,7 @@ function App() {
         audio: false,
       });
       videoElement.current.srcObject = stream;
+      videoBackgroundElement.current.srcObject = stream;
     };
     startCamera();
   }, []);
@@ -32,16 +34,45 @@ function App() {
 
   return (
     <div
-      className="App"
       style={{
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
         gap: "20px",
+        textAlign: "center",
       }}
     >
-      <div>
-        <video ref={videoElement} width="320" height="300" autoPlay></video>
+      <div style={{ position: "relative" }}>
+        <div>
+          <video
+            ref={videoElement}
+            width="450"
+            height="400"
+            autoPlay
+            style={{
+              objectFit: "initial",
+              bottom: "50px",
+              position: "relative",
+              filter: "blur(4px)",
+            }}
+          ></video>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            left: "0px",
+            right: "0px",
+            top: "10px",
+          }}
+        >
+          <video
+            ref={videoBackgroundElement}
+            width="300"
+            height="300"
+            autoPlay
+            style={{ objectFit: "initial" }}
+          ></video>
+        </div>
       </div>
       <div>
         <button id="click-photo" onClick={capturePhoto}>
